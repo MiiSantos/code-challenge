@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 public class Account {
     private Long id;
     private int number;
-    private BigDecimal balance;
-    private BigDecimal deposit;
+    private float balance;
+    private float deposit;
     private Customer onwer;
 
     public Long getId() {
@@ -30,19 +30,19 @@ public class Account {
         this.number = number;
     }
 
-    public BigDecimal getBalance() {
+    public float getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(float balance) {
         this.balance = balance;
     }
 
-    public BigDecimal getDeposit() {
+    public float getDeposit() {
         return deposit;
     }
 
-    public void setDeposit(BigDecimal deposit) {
+    public void setDeposit(float deposit) {
         this.deposit = deposit;
     }
 

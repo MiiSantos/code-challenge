@@ -2,24 +2,31 @@
 package br.com.challenge.app.entities;
 
 import br.com.challenge.app.models.Customer;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import org.hibernate.annotations.Table;
+
 
 /**
  *
  * @author miria
  */
 @Entity
+//@Table(name = "tb_customer")
 public class CustomerEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_customer")
     private Long id;
     
+    @Column(name = "customer_name")
     private String name;
     
+    @Column(name = "customer_document")
     private String document;
 
     public Long getId() {
