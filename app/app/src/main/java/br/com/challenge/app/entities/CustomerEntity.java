@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 import org.hibernate.annotations.Table;
 
 
@@ -15,7 +17,6 @@ import org.hibernate.annotations.Table;
  * @author miria
  */
 @Entity
-//@Table(name = "tb_customer")
 public class CustomerEntity {
     
     @Id
@@ -28,6 +29,12 @@ public class CustomerEntity {
     
     @Column(name = "customer_document")
     private String document;
+    
+    public CustomerEntity(Customer model) {
+    	this.id = model.getId();
+    	this.document = model.getDocument();
+    	this.name = model.getName();
+    }
 
     public Long getId() {
         return id;

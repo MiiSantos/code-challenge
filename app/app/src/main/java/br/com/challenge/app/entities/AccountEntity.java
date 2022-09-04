@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -29,23 +30,19 @@ public class AccountEntity {
     private int number;
     
     @Column(name="customer_balance")
-    private float balance;
+    private BigDecimal balance;
     
-    @Column(name="deposit_value")
-    private float deposit;
-    
-    @Column(name="account_onwer")
     @OneToOne
-    private Customer onwer;
+    @JoinColumn(name = "id_customer")
+    private CustomerEntity onwer;
     
     public AccountEntity(Account model) {
         if (model != null) {
             this.id = model.getId();
             this.number = model.getNumber();
-            this.deposit = model.getDeposit();
             this.balance = model.getBalance();
             if (model.getOnwer() != null) {
-                this.onwer = model.getOnwer();
+                this.onwer = new CustomerEntity(model.getOnwer());
             }
         }
     }
@@ -66,38 +63,29 @@ public class AccountEntity {
         this.number = number;
     }
 
-    public float getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(float balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+ 
+    public CustomerEntity getOnwer() {
+		return onwer;
+	}
 
-    public float getDeposit() {
-        return deposit;
-    }
+	public void setOnwer(CustomerEntity onwer) {
+		this.onwer = onwer;
+	}
 
-    public void setDeposit(float deposit) {
-        this.deposit = deposit;
-    }
-
-    public Customer getOnwer() {
-        return onwer;
-    }
-
-    public void setOnwer(Customer onwer) {
-        this.onwer = onwer;
-    }
-    
-    public Account toModel() {
+	public Account toModel() {
         Account model = new Account();
         model.setId(this.id);
         model.setBalance(this.balance);
-        model.setDeposit(this.deposit);
         model.setNumber(this.number);
         if (this.onwer != null) {
-            model.setOnwer(this.onwer);
+            model.setOnwer(this.onwer.toModel());
         }
         
         return model;
