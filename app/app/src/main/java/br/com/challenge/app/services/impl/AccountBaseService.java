@@ -9,6 +9,8 @@ import br.com.challenge.app.repositories.CustomerRepository;
 import br.com.challenge.app.services.AccountService;
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +31,16 @@ public class AccountBaseService implements AccountService {
     public Account create(Account model) {
         if (model != null) {
             AccountEntity entity = new AccountEntity(model);
-            CustomerEntity customer = this.customerRepository.findByDocument(entity.getOnwer().getDocument());
-            if (customer != null) {
-            	//mensagem de esse cliente ja possui conta
-            } else {
-            	entity = this.repository.save(entity);
+            if (entity.getOnwer() != null) {
+            	CustomerEntity customer = this.customerRepository.findByDocument(entity.getOnwer().getDocument());
+            	if (customer != null) {
+            		//mensagem de esse cliente ja possui conta
+            	} else {
+            		Random random = new Random();
+            		entity.setNumber(random.nextInt(9999));
+            		
+            		entity = this.repository.save(entity);
+            	}
             }
             return entity.toModel();
         }
@@ -84,6 +91,9 @@ public class AccountBaseService implements AccountService {
             		BigDecimal receiverAmount = receiver.getBalance();
             		receiver.setBalance(receiverAmount.add(value));
             		entity.setBalance(amount.subtract(value));
+            		
+            		this.repository.save(receiver);
+            		entity = this.repository.save(entity);
             		
             		return entity.toModel();
             	} else {

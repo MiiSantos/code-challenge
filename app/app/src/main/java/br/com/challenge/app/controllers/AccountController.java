@@ -57,5 +57,16 @@ public class AccountController {
     	}
     	return new ResponseEntity<Account>(model, HttpStatus.NO_CONTENT);
     }
+    
+    @PutMapping("/transfer/{id}")
+    public ResponseEntity<Account> transfer(@PathVariable Long id, BigDecimal value, int receiverNumber) {
+    	Account model = new Account();
+    	model.setId(id);
+    	model = this.service.makeTranfer(model, value, receiverNumber);
+    	if (model != null) {
+    		return new ResponseEntity<Account>(model, HttpStatus.OK);
+    	}
+    	return new ResponseEntity<Account>(model, HttpStatus.NO_CONTENT);
+    }
 }
 
