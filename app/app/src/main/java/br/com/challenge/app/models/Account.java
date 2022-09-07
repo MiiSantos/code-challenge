@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class Account {
     private Long id;
     private int number;
-    private BigDecimal balance;
+    private Double balance;
     private Customer onwer;
 
     public Long getId() {
@@ -29,11 +29,11 @@ public class Account {
         this.number = number;
     }
 
-    public BigDecimal getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 

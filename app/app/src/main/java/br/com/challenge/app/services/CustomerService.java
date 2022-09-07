@@ -1,5 +1,6 @@
 package br.com.challenge.app.services;
 
+import br.com.challenge.app.models.Customer;
 
 /**
  *
@@ -7,4 +8,7 @@ package br.com.challenge.app.services;
  */
 public interface CustomerService {
     
+	public Customer create(Customer model);
+	
+	public Customer findByDocument(Customer model);
 }

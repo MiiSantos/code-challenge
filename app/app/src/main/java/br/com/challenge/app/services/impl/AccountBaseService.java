@@ -2,12 +2,10 @@
 package br.com.challenge.app.services.impl;
 
 import br.com.challenge.app.entities.AccountEntity;
-import br.com.challenge.app.entities.CustomerEntity;
 import br.com.challenge.app.models.Account;
 import br.com.challenge.app.repositories.AccountRepository;
-import br.com.challenge.app.repositories.CustomerRepository;
 import br.com.challenge.app.services.AccountService;
-import java.math.BigDecimal;
+
 import java.util.Optional;
 import java.util.Random;
 
@@ -23,39 +21,30 @@ public class AccountBaseService implements AccountService {
     
     @Autowired
     private AccountRepository repository;
-    
-    @Autowired
-    private CustomerRepository customerRepository;
 
     @Override
     public Account create(Account model) {
         if (model != null) {
             AccountEntity entity = new AccountEntity(model);
-            if (entity.getOnwer() != null) {
-            	CustomerEntity customer = this.customerRepository.findByDocument(entity.getOnwer().getDocument());
-            	if (customer != null) {
-            		//mensagem de esse cliente ja possui conta
-            	} else {
-            		Random random = new Random();
-            		entity.setNumber(random.nextInt(9999));
-            		
-            		entity = this.repository.save(entity);
-            	}
-            }
-            return entity.toModel();
+            Random random = new Random();
+            entity.setNumber(random.nextInt(9999));
+            entity = this.repository.save(entity);
+            	
+            return entity.toModel(); 
         }
         return null;
     }
 
     @Override
-    public Account makeDeposit(Account model, BigDecimal value) {
+    public Account makeDeposit(Account model, Double value) {
         if (model != null) {
             Optional<AccountEntity> op = this.repository.findById(model.getId());
             AccountEntity entity = op.get();
-            if (value.compareTo(value) <= 2000) {
-            	BigDecimal amount = entity.getBalance();
-                entity.setBalance(value.add(amount));
+            if (value <= 2000) {
+            	Double amount = entity.getBalance();
+                entity.setBalance(value + amount);
                 this.repository.save(entity);
+                return entity.toModel();
             } else {
                 //mensagem de informação
             }
@@ -64,14 +53,15 @@ public class AccountBaseService implements AccountService {
     }
 
     @Override
-    public Account makeDebit(Account model, BigDecimal value) {
+    public Account makeDebit(Account model, Double value) {
         if (model != null) {
             Optional<AccountEntity> op = this.repository.findById(model.getId());
             AccountEntity entity = op.get();
-            BigDecimal amount = entity.getBalance();
-            if (amount.subtract(value).signum() >= 0) {
-                entity.setBalance(amount.subtract(value));
+            Double amount = entity.getBalance();
+            if ((amount - value) >= 0) {
+                entity.setBalance(amount - value);
                 this.repository.save(entity);
+                return entity.toModel();
             } else {
                 //mensagem informando que não há saldo
             }
@@ -80,18 +70,17 @@ public class AccountBaseService implements AccountService {
     }
 
 	@Override
-	public Account makeTranfer(Account model, BigDecimal value, int accountNumber) {
+	public Account makeTranfer(Account model, Double value, int accountNumber) {
 		if (model != null) {
 			Optional<AccountEntity> op = this.repository.findById(model.getId());
             AccountEntity entity = op.get();
-            BigDecimal amount = entity.getBalance();
-            if (amount.subtract(value).signum() >= 0) {
+            Double amount = entity.getBalance();
+            if (amount - value >= 0) {
             	AccountEntity receiver = this.repository.findByAccountNumber(accountNumber);
             	if (receiver != null) {
-            		BigDecimal receiverAmount = receiver.getBalance();
-            		receiver.setBalance(receiverAmount.add(value));
-            		entity.setBalance(amount.subtract(value));
-            		
+            		Double receiverAmount = receiver.getBalance();
+            		receiver.setBalance(receiverAmount + value);
+            		entity.setBalance(amount - value);
             		this.repository.save(receiver);
             		entity = this.repository.save(entity);
             		

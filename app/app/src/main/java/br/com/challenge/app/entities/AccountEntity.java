@@ -2,7 +2,6 @@
 package br.com.challenge.app.entities;
 
 import br.com.challenge.app.models.Account;
-import br.com.challenge.app.models.Customer;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,11 +29,13 @@ public class AccountEntity {
     private int number;
     
     @Column(name="customer_balance")
-    private BigDecimal balance;
+    private Double balance;
     
     @OneToOne
     @JoinColumn(name = "id_customer")
     private CustomerEntity onwer;
+    
+    public AccountEntity() {}
     
     public AccountEntity(Account model) {
         if (model != null) {
@@ -62,16 +63,16 @@ public class AccountEntity {
     public void setNumber(int number) {
         this.number = number;
     }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
  
-    public CustomerEntity getOnwer() {
+    public Double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
+
+	public CustomerEntity getOnwer() {
 		return onwer;
 	}
 

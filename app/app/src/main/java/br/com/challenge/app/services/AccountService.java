@@ -1,8 +1,6 @@
 
 package br.com.challenge.app.services;
 
-import java.math.BigDecimal;
-
 import br.com.challenge.app.models.Account;
 
 /**
@@ -13,9 +11,9 @@ public interface AccountService {
      
     public Account create(Account model);
     
-    public Account makeDeposit(Account model, BigDecimal value);
+    public Account makeDeposit(Account model, Double value);
     
-    public Account makeDebit(Account model, BigDecimal value);
+    public Account makeDebit(Account model, Double value);
     
-    public Account makeTranfer(Account model, BigDecimal value, int accountNumber);
+    public Account makeTranfer(Account model, Double value, int accountNumber);
 }
