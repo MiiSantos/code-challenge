@@ -21,20 +21,24 @@ public class CustomerBaseService implements CustomerService {
 	
 	@Override
 	public Customer create(Customer model) {
-		CustomerEntity customer = new CustomerEntity(model);
-		this.customerRepository.save(customer);
+		Boolean checkCustomer = this.findByDocument(model);
+		if (!checkCustomer) {
+			CustomerEntity customer = new CustomerEntity(model);
+			this.customerRepository.save(customer);
 		
-		return customer.toModel();
+			return customer.toModel();
+		}
+		return null;
 	}
 
 	@Override
-	public Customer findByDocument(Customer model) {
+	public Boolean findByDocument(Customer model) {
 		if (model != null) {
 			CustomerEntity customer = this.customerRepository.findByDocument(model.getDocument());
 			if (customer != null) {
-				return customer.toModel();			
+				return true;			
 			}
 		}
-		return null;
+		return false;
 	}	
 }

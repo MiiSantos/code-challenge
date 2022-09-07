@@ -10,5 +10,5 @@ public interface CustomerService {
     
 	public Customer create(Customer model);
 	
-	public Customer findByDocument(Customer model);
+	public Boolean findByDocument(Customer model);
 }

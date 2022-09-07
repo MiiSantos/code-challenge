@@ -2,10 +2,8 @@
 package br.com.challenge.app.services.impl;
 
 import br.com.challenge.app.entities.AccountEntity;
-import br.com.challenge.app.entities.CustomerEntity;
 import br.com.challenge.app.models.Account;
 import br.com.challenge.app.repositories.AccountRepository;
-import br.com.challenge.app.repositories.CustomerRepository;
 import br.com.challenge.app.services.AccountService;
 
 import java.util.Optional;
@@ -26,7 +24,7 @@ public class AccountBaseService implements AccountService {
 
     @Override
     public Account create(Account model) {
-        if (model != null) {
+    	if (model != null) {
             AccountEntity entity = new AccountEntity(model);
             Random random = new Random();
             entity.setNumber(random.nextInt(9999));
