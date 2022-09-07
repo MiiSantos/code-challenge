@@ -16,4 +16,7 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
     
 	@Query(value = " select * from tb_account a where a.account_number = :accountNumber ", nativeQuery = true)
 	public AccountEntity findByAccountNumber(@Param("accountNumber") int accountNumber);
+	
+	@Query(value = " select * from tb_account where exists(select * from tb_account where id_customer = :id) ", nativeQuery = true)
+	public AccountEntity checkIfAccountExists(@Param("id") Long id);
 }

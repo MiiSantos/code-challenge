@@ -2,8 +2,10 @@
 package br.com.challenge.app.services.impl;
 
 import br.com.challenge.app.entities.AccountEntity;
+import br.com.challenge.app.entities.CustomerEntity;
 import br.com.challenge.app.models.Account;
 import br.com.challenge.app.repositories.AccountRepository;
+import br.com.challenge.app.repositories.CustomerRepository;
 import br.com.challenge.app.services.AccountService;
 
 import java.util.Optional;
@@ -45,8 +47,6 @@ public class AccountBaseService implements AccountService {
                 entity.setBalance(value + amount);
                 this.repository.save(entity);
                 return entity.toModel();
-            } else {
-                //mensagem de informação
             }
         }
         return null;
@@ -62,8 +62,6 @@ public class AccountBaseService implements AccountService {
                 entity.setBalance(amount - value);
                 this.repository.save(entity);
                 return entity.toModel();
-            } else {
-                //mensagem informando que não há saldo
             }
         }
         return null;
@@ -85,11 +83,17 @@ public class AccountBaseService implements AccountService {
             		entity = this.repository.save(entity);
             		
             		return entity.toModel();
-            	} else {
-            		//mensagem de conta não encontrada
             	}
             }
 		}
 		return null;
+	}
+
+	@Override
+	public Account findAccount(Long id) {
+		Optional<AccountEntity> op = this.repository.findById(id);
+		AccountEntity entity = op.get();
+		
+		return entity.toModel();
 	}
 }

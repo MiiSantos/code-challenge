@@ -22,11 +22,9 @@ public class CustomerBaseService implements CustomerService {
 	@Override
 	public Customer create(Customer model) {
 		CustomerEntity customer = new CustomerEntity(model);
-		if (customer != null) {
-			this.customerRepository.save(customer);
-			return customer.toModel();
-		}
-		return null;
+		this.customerRepository.save(customer);
+		
+		return customer.toModel();
 	}
 
 	@Override

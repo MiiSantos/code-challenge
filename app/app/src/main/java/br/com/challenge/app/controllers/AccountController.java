@@ -9,6 +9,7 @@ import br.com.challenge.app.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,7 +42,16 @@ public class AccountController {
         	}
             return new ResponseEntity<Account>(model, HttpStatus.CREATED);
         }
-        return new ResponseEntity<Account>(model, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Account>(HttpStatus.NO_CONTENT);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Account> getAccount(@PathVariable Long id) {
+    	Account model = this.service.findAccount(id);   	
+    	if (model != null) {
+    		return new ResponseEntity<Account>(model, HttpStatus.OK);
+    	}
+    	return new ResponseEntity<Account>(HttpStatus.NO_CONTENT);
     }
     
     @PutMapping("/deposit/{id}")
@@ -52,7 +62,7 @@ public class AccountController {
     	if (model != null) {
     		return new ResponseEntity<Account>(model, HttpStatus.OK);
     	}
-    	return new ResponseEntity<Account>(model, HttpStatus.NO_CONTENT);	
+    	return new ResponseEntity<Account>(HttpStatus.NO_CONTENT);	
     }
     
     @PutMapping("/debit/{id}")
@@ -63,7 +73,7 @@ public class AccountController {
     	if (model != null) {
     		return new ResponseEntity<Account>(model, HttpStatus.OK);
     	}
-    	return new ResponseEntity<Account>(model, HttpStatus.NO_CONTENT);
+    	return new ResponseEntity<Account>(HttpStatus.NO_CONTENT);
     }
     
     @PutMapping("/transfer/{id}")
@@ -74,7 +84,7 @@ public class AccountController {
     	if (model != null) {
     		return new ResponseEntity<Account>(model, HttpStatus.OK);
     	}
-    	return new ResponseEntity<Account>(model, HttpStatus.NO_CONTENT);
+    	return new ResponseEntity<Account>(HttpStatus.NO_CONTENT);
     }
 }
 

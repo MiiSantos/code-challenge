@@ -11,6 +11,8 @@ public interface AccountService {
      
     public Account create(Account model);
     
+    public Account findAccount(Long id);
+    
     public Account makeDeposit(Account model, Double value);
     
     public Account makeDebit(Account model, Double value);
